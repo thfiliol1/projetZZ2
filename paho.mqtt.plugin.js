@@ -144,7 +144,7 @@
 
 		   // }
 
-		}
+		};
 
 		function onMessageArrived(message) {
 			data.topic = message.destinationName;
