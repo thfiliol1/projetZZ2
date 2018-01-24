@@ -128,7 +128,7 @@
 		//jQuery('#res').html("");
 			str_image = str_image + pChunk["data"];
 			if(pChunk["pos"] == pChunk["size"]){
-				//console.log(str_image);
+				console.log(str_image);
 				//displays image
 				var source = 'data:image/jpeg;base64,'+str_image;
 				//var myImageElement = document.getElementById("picture_to_show");
