@@ -131,10 +131,12 @@
 				console.log(str_image);
 				//displays image
 				var source = 'data:image/jpeg;base64,'+str_image;
+				var html = '<img src="'+source+'"></img>';
 				//var myImageElement = document.getElementById("picture_to_show");
 				//myImageElement.src = '#';
 				//myImageElement.src = source;
-				data.msg = source
+				data.msg = html;
+				console.log(html);
 		
 				//jQuery('#res').append("<img id='picture_to_show'></img>");
 				//jQuery('#picture_to_show').attr('src', source);
