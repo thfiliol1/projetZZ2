@@ -85,7 +85,7 @@
 	{
  		var self = this;
 		var data = {};
-		var str_image="";
+		var pictures=[];
 
 		var currentSettings = settings;
 
@@ -99,17 +99,27 @@
 				console.log("onConnectionLost:"+responseObject.errorMessage);
 		};
 		
-		
 		function reconstructBase64String(chunk) {
-		    	pChunk = JSON.parse(chunk);		 
-			str_image = str_image + pChunk["data"];
-			//last packet
-			if(pChunk["pos"] == pChunk["size"]){
-				//displays image
-				var source = 'data:image/jpeg;base64,'+str_image;
-				var html = '<img src="'+source+'"></img>';
-				data.msg = html;
-				str_image="";
+    			packet = JSON.parse(chunk);
+    			//creates a new picture object if receiving a new picture
+    			if (pictures[packet["pic_id"]]==null) {
+        			pictures[packet["pic_id"]] = {"count":0, "total":packet["size"], pieces: {}, "pic_id": packet["pic_id"]};
+        			pictures[packet["pic_id"]].pieces[packet["pos"]] = packet["data"];
+    			}
+    			//else adds incoming strings to an existing picture 
+			else {
+				pictures[packet["pic_id"]].pieces[packet["pos"]] = packet["data"];
+				pictures[packet["pic_id"]].count += 1;
+				if (pictures[packet["pic_id"]].count == pictures[packet["pic_id"]].total) {
+					console.log("Image received");
+					var str_image=""; 
+					for (var i = 0; i <= pictures[packet["pic_id"]].total; i++)
+					    str_image = str_image + pictures[packet["pic_id"]].pieces[i];
+					//displays image
+					var source = 'data:image/jpeg;base64,'+str_image;
+					var html = '<img src="'+source+'"></img>';
+					data.msg = html;
+				}
 			}
 		};
 
